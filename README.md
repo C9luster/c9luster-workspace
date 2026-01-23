@@ -13,9 +13,10 @@ c9luster-workspace/
 ├── llm/              # 大语言模型相关学习
 │   ├── agent/        # AI Agent 开发与实践
 │   └── llm/          # LLM 基础理论与应用
-└── operations/       # 运维相关学习
-    ├── docker/       # Docker 容器化技术
-    └── k8s/          # Kubernetes 容器编排
+├── operations/       # 运维相关学习
+│   ├── docker/       # Docker 容器化技术
+│   └── k8s/          # Kubernetes 容器编排
+└── tools/            # 工具与脚本
 ```
 
 ## 🎯 学习方向
@@ -35,12 +36,15 @@ c9luster-workspace/
 - **Docker**: 容器化技术、镜像构建、Docker Compose
 - **Kubernetes**: 容器编排、服务发现、配置管理、监控告警
 
+### 工具与脚本
+- **Tools**: 开发辅助脚本、数据处理工具、自动化脚本等实用工具
+
 ## 📝 使用说明
 
 本工作空间采用分类管理的方式，每个目录下可以存放：
 - 学习笔记（Markdown 格式）
 - 实践代码（对应语言的文件）
-- 相关文档和参考资料pwd
+- 相关文档和参考资料
 
 
 ---
