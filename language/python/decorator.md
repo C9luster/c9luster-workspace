@@ -73,3 +73,38 @@ def trace(func):
     return wrapper
 ```
 
+## @contextmanager
+
+`@contextmanager` 来自 `contextlib`，用于把**生成器函数**写成上下文管理器，比手写 `__enter__`/`__exit__` 更简洁。函数里用 `yield` 分出“进入”和“退出”两部分：`yield` 之前相当于 `__enter__`，之后相当于 `__exit__`；**`with` 块里的代码就是在 `yield` 处执行的内容**。适合资源开关、临时状态等场景。
+
+```python
+from contextlib import contextmanager
+
+@contextmanager
+def my_resource():
+    print("进入")
+    yield
+    print("退出")
+
+with my_resource():
+    print("使用中")
+```
+
+## @asynccontextmanager
+
+`@asynccontextmanager` 来自 `contextlib`，是 `@contextmanager` 的**异步版本**。装饰的是**异步生成器函数**（`async def` + `yield`），用于在 `async with` 中作为异步上下文管理器。`yield` 前为进入逻辑，后为退出逻辑；**`async with` 块里的代码就是在 `yield` 处执行的内容**。写法与同步版一致，只是支持 `await`。
+
+```python
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def my_async_resource():
+    print("进入")
+    yield
+    print("退出")
+
+async def main():
+    async with my_async_resource():
+        print("使用中")
+```
+
