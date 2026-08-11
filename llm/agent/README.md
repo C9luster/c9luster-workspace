@@ -2,7 +2,25 @@
 
 AI Agent 开发与实践。
 
-## 📚 学习内容
+## 目录结构
+
+```text
+agent/
+├── README.md
+├── claude-code/     # Claude Code Agent 框架知识库
+├── langchain/       # LangChain 生态（含 LangGraph）
+└── skill/           # Skill 相关（待补充）
+```
+
+## 知识库索引
+
+| 目录 | 内容概要 |
+|------|----------|
+| [claude-code/](./claude-code/) | 交互形态、Agentic Loop、上下文、多 Agent、工具与权限、会话持久化 |
+| [langchain/langgraph/](./langchain/langgraph/) | 有状态编排、StateGraph / Pregel、Checkpoint、HITL、CLI / SDK |
+| [skill/](./skill/) | Skill 机制相关笔记 |
+
+## 学习主题（总览）
 
 - Agent 框架与架构设计
 - 工具调用（Tool Calling）
@@ -13,22 +31,12 @@ AI Agent 开发与实践。
 - Agent 评估与测试
 - 实际应用场景
 
-## 📝 笔记结构
+## 相关框架
 
-- 框架对比与选型
-- 实践项目代码
-- 最佳实践总结
-- 常见问题与解决方案
+- LangChain / LangGraph（见 [langchain/](./langchain/)）
+- Claude Code（见 [claude-code/](./claude-code/)）
+- AutoGPT / BabyAGI / CrewAI 等（待整理）
 
-## 🛠️ 相关框架
+## 相关资源
 
-- LangChain / LangGraph
-- AutoGPT
-- BabyAGI
-- CrewAI
-- 其他开源框架
-
-## 🔗 相关资源
-
-- 持续更新中...
-
+- 持续更新中…

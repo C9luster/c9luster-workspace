@@ -9,6 +9,8 @@ c9luster-workspace/
 ├── database/          # 数据库相关学习
 │   ├── pgsql/        # PostgreSQL 学习笔记和实践
 │   └── redis/        # Redis 学习笔记和实践
+├── frontend/         # 前端学习笔记与小技巧
+│   └── tips/         # 可复用的前端实践技巧
 ├── leetcode/         # LeetCode 算法题解
 ├── llm/              # 大语言模型相关学习
 │   ├── agent/        # AI Agent 开发与实践
@@ -24,6 +26,9 @@ c9luster-workspace/
 ### 数据库技术
 - **PostgreSQL**: 关系型数据库深入学习，包括性能优化、高可用、备份恢复等
 - **Redis**: 内存数据库，缓存策略、数据结构、集群部署等
+
+### 前端
+- **Tips**: 横滑渐隐、点击穿透、CSS/JS 性能取舍等可复用小技巧
 
 ### 算法与数据结构
 - **LeetCode**: 算法题解、数据结构实践、编程技巧总结
