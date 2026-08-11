@@ -17,7 +17,7 @@ agent/
 | 目录 | 内容概要 |
 |------|----------|
 | [claude-code/](./claude-code/) | 交互形态、Agentic Loop、上下文、多 Agent、工具与权限、会话持久化 |
-| [langchain/langgraph/](./langchain/langgraph/) | 有状态编排、StateGraph / Pregel、Checkpoint、HITL、CLI / SDK |
+| [langchain/langgraph/](./langchain/langgraph/) | 有状态编排、棋盘控制流、Checkpoint/Store、harness 分层、心智模型 |
 | [skill/](./skill/) | Skill 机制相关笔记 |
 
 ## 学习主题（总览）

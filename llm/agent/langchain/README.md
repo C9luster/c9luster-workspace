@@ -9,20 +9,15 @@ langchain/
 ├── README.md
 └── langgraph/          # 有状态 Agent / 工作流编排框架
     ├── README.md
-    ├── 01-概述与定位.md
-    ├── 02-仓库结构与包依赖.md
-    ├── 03-核心架构.md
-    ├── 04-状态通道与控制流.md
-    ├── 05-持久化与关键能力.md
-    ├── 06-Prebuilt-CLI与SDK.md
-    └── 07-选型对照与阅读路径.md
+    ├── 01 … 07         # 定位、架构、控制流、Memory、CLI、选型
+    └── 08-心智模型与常见误解.md   # 讨论沉淀
 ```
 
 ## 分类说明
 
 | 目录 | 内容 |
 |------|------|
-| [langgraph/](./langgraph/) | LangGraph monorepo 定位、架构、Checkpoint、HITL、CLI/SDK |
+| [langgraph/](./langgraph/) | 定位与架构、node/edge、Checkpoint/Store、harness 分层、心智模型 |
 
 ## 约定
 
