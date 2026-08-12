@@ -37,6 +37,15 @@ agent/
 - Claude Code（见 [claude-code/](./claude-code/)）
 - AutoGPT / BabyAGI / CrewAI 等（待整理）
 
+## 学习 TODO
+
+| 序号 | 主题 | 状态 |
+|------|------|------|
+| 1 | Codex | 待学习 |
+| 2 | Deer-Flow | 待学习 |
+| 3 | ExploreAgent | 待学习 |
+| 4 | Pi | 待学习 |
+
 ## 相关资源
 
 - 持续更新中…

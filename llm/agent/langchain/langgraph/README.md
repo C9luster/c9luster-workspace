@@ -3,7 +3,7 @@
 本目录是对 [LangGraph](https://github.com/langchain-ai/langgraph) 的系统性整理，聚焦 **有状态 Agent / 工作流编排**：定位、架构、控制流、Checkpoint/Store、与 harness 分层，以及讨论沉淀的心智模型。
 
 > 本地对照仓库：`workspace/github/langgraph`（`main`，核心包约 `langgraph==1.2.10`）。  
-> 文档为独立知识库；概念基于官方文档 / 源码与内部对照讨论整理。
+> 文档为独立知识库；概念基于官方文档、源码与概念讨论整理。
 
 ---
 
@@ -15,10 +15,10 @@
 | 02 | [仓库结构与包依赖](./02-仓库结构与包依赖.md) | Monorepo 布局、各 libs 职责、依赖关系图 |
 | 03 | [核心架构](./03-核心架构.md) | StateGraph → Pregel → Channels；reducer 输入示例 |
 | 04 | [状态、通道与控制流](./04-状态通道与控制流.md) | State/Channel、**node/edge 棋盘隐喻**、Send/Command |
-| 05 | [持久化与 Memory](./05-持久化与关键能力.md) | Checkpoint/Store、上下文自管、与 session 对照 |
+| 05 | [持久化与 Memory](./05-持久化与关键能力.md) | Checkpoint/Store 机制、接口、上下文策略（细） |
 | 06 | [Prebuilt、CLI 与 SDK](./06-Prebuilt-CLI与SDK.md) | harness 分层、`create_agent`、CLI/SDK |
-| 07 | [选型对照与阅读路径](./07-选型对照与阅读路径.md) | 选型、Miaoda 对照矩阵、阅读路径 |
-| 08 | [心智模型与常见误解](./08-心智模型与常见误解.md) | **讨论沉淀**：编排vs调度、ReAct、workflow 感、DIY |
+| 07 | [选型对照与阅读路径](./07-选型对照与阅读路径.md) | 选型、与 Claude Code 概念对照、阅读路径 |
+| 08 | [心智模型与常见误解](./08-心智模型与常见误解.md) | 编排vs调度、ReAct、workflow 感、DIY |
 
 ---
 
