@@ -14,7 +14,9 @@ c9luster-workspace/
 ├── leetcode/         # LeetCode 算法题解
 ├── llm/              # 大语言模型相关学习
 │   ├── agent/        # AI Agent 开发与实践
-│   └── llm/          # LLM 基础理论与应用
+│   ├── llm/          # LLM 基础理论与应用
+│   ├── protocols/    # 模型 Wire API 与 Agent 协作协议
+│   └── tips/         # Coding Prompt、Agent 工作流、前沿社区
 ├── operations/       # 运维相关学习
 │   ├── docker/       # Docker 容器化技术
 │   └── k8s/          # Kubernetes 容器编排
@@ -36,6 +38,8 @@ c9luster-workspace/
 ### 大语言模型
 - **LLM 基础**: 大语言模型原理、Prompt 工程、微调技术
 - **AI Agent**: Agent 框架开发、工具调用、多 Agent 协作
+- **Protocols**: Chat Completions / Responses / Messages / Gemini、云封装、MCP/A2A
+- **Tips**: Coding Prompt、用 Agent 高效开发、前沿社区与跟进方式
 
 ### 运维技术
 - **Docker**: 容器化技术、镜像构建、Docker Compose

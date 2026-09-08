@@ -12,6 +12,9 @@ agent/
 └── skill/           # Skill 相关（待补充）
 ```
 
+同级协议知识库见 [../protocols/](../protocols/)（模型 Wire API 与 MCP/A2A 等）。  
+用 Agent 写代码的实践技巧见 [../tips/](../tips/)。
+
 ## 知识库索引
 
 | 目录 | 内容概要 |
@@ -19,6 +22,8 @@ agent/
 | [claude-code/](./claude-code/) | 交互形态、Agentic Loop、上下文、多 Agent、工具与权限、会话持久化 |
 | [langchain/langgraph/](./langchain/langgraph/) | 有状态编排、棋盘控制流、Checkpoint/Store、harness 分层、心智模型 |
 | [skill/](./skill/) | Skill 机制相关笔记 |
+| [../protocols/](../protocols/) | Chat Completions / Responses / Messages / Gemini、兼容层、MCP/A2A |
+| [../tips/](../tips/) | Coding Prompt、Agent 高效开发、前沿社区 |
 
 ## 学习主题（总览）
 
