@@ -55,7 +55,7 @@ Cursor 里常见落点：
 改完立刻跑测试 / 类型检查 / 最小复现。prompt 里应写明命令，例如：
 
 ```text
-验收：在 workspace-fe 下跑 pnpm typecheck；相关单测必须绿。
+验收：在 {代码库} 下跑 pnpm typecheck；相关单测必须绿。
 ```
 
 相关写法见 [写好 Coding Prompt](./coding-prompt.md)。跟前沿社区见 [前沿从哪跟](./frontier-communities.md)。

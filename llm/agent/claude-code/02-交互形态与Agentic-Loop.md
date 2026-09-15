@@ -37,10 +37,24 @@ QueryEngine 内部状态
 ├── readFileState            已读文件缓存，避免重复读取
 ├── totalUsage               累计 token 消耗
 ├── permissionDenials        权限拒绝记录
-├── discoveredSkillNames     当前 turn 已发现的 skill
+├── discoveredSkillNames     当前 turn 已发现的 skill（submitMessage 开头清空）
 ├── loadedNestedMemoryPaths  已加载嵌套 memory 路径
 └── abortController          会话级中断控制
 ```
+
+### QueryEngineConfig 值得注意的字段（相对旧文档补全）
+
+| 字段 | 作用 |
+|------|------|
+| `taskBudget?: { total }` | API beta task-budgets；跨 compact 追踪剩余 |
+| `snipReplay?` | SDK 路径对 snip boundary 的重放/截断（REPL 为保 UI 滚动通常不截） |
+| `handleElicitation?` | MCP -32042 URL elicitation |
+| `orphanedPermission?` | resume 时孤儿权限恢复 |
+| `includePartialMessages?` | 是否向前端吐 partial |
+| `jsonSchema?` | Structured output |
+| `maxBudgetUsd?` / `maxTurns?` | 硬预算与轮次上限 |
+
+公开方法侧重：`submitMessage`、`interrupt`、`getAbortSignal`、`getMessages`、`setModel` 等。
 
 ### submitMessage 流程（SDK/多轮）
 
@@ -89,38 +103,48 @@ REPL 中与 AI 交互的核心控制器，负责：
 
 ### 阶段 1：上下文预处理管道
 
-在调用 API 之前，串行执行 5 步：
+在调用 API 之前串行执行（`src/query.ts`）。注释明确：**snip 与 microcompact 不互斥，两者都可跑**；释放的 token 计入后续 autocompact 阈值。
 
 ```text
 messagesForQuery（原始）
-  ↓ applyToolResultBudget     工具结果预算截断
-  ↓ snipCompactIfNeeded       历史 Snip 压缩
-  ↓ microcompact              微压缩（工具结果摘要）
-  ↓ applyCollapsesIfNeeded    上下文折叠
-  ↓ autocompact               自动压缩（超出阈值）
+  ↓ applyToolResultBudget     工具结果内容替换/预算（contentReplacementState）
+  ↓ snipCompactIfNeeded       HISTORY_SNIP：历史 Snip（可与 microcompact 同轮）
+  ↓ microcompact              旧工具结果清除；可走 cached microcompact 分支
+  ↓ applyCollapsesIfNeeded    CONTEXT_COLLAPSE（部分实现为 stub，见 03）
+  ↓ autocompact               先 trySessionMemoryCompaction，再 API compact
 messagesForQuery（处理后）→ 发往 API
 ```
 
-Snip 和 Microcompact 释放的 token 会传递给 autocompact 阈值计算，避免重复压缩。
+另有 **predictive autocompact**：在部分路径用 `estimateMaxTurnGrowth` 预估本轮增长，提前压缩。
 
 ### 阶段 2：流式 API 调用
 
 - AssistantMessage 收集到 assistantMessages[]
 - tool_use 块提取到 toolUseBlocks[]，设置 needsFollowUp = true
-- **StreamingToolExecutor** 在流式过程中并行执行工具
+- **StreamingToolExecutor**（门控：`buildQueryConfig().gates.streamingToolExecution` / Statsig `tengu_streaming_tool_execution2`）在流式过程中即可启动工具
 - 可恢复错误（prompt-too-long、max-output-tokens）被暂扣，先尝试恢复
 
 关键守卫：
-- backfillObservableInput：为 tool_use 回填可观察字段，只在添加新字段时克隆消息（保护 prompt cache）
-- 流式降级：streamingFallbackOccured 时消息 tombstone 后重试
+- `backfillObservableInput`：为 tool_use 回填可观察字段，只在添加新字段时克隆（保护 prompt cache）
+- 流式降级：`streamingFallbackOccured` 时消息 tombstone；`StreamingToolExecutor.discard()` abort sibling，防泄漏
 
-### 阶段 3：工具执行
+### 阶段 3：工具执行（并行 / 串行）
 
 ```text
 needsFollowUp = true 时：
   streamingToolExecutor ? getRemainingResults() : runTools(...)
   → toolResults 标准化 → 合并进 messages → 下一轮迭代
 ```
+
+#### Multi tool_call 如何并行
+
+| 路径 | 机制 |
+|------|------|
+| **StreamingToolExecutor** | 每个 tool 解析后看 `tool.isConcurrencySafe(input)`；仅当「当前工具安全且正在执行的全部安全」才重叠执行；不安全工具会卡住队列直到可独占运行 |
+| **runTools / toolOrchestration** | `partitionToolCalls`：连续 safe 的 call 合成一批 **并发**；unsafe 单独成批 **串行** |
+| **Sibling abort** | Bash 等错误可 `siblingAbortController.abort('sibling_error')` 取消兄弟工具；流式 fallback 也会 abort sibling |
+
+心智模型：**并发安全由工具声明（对具体 input）决定**，不是「模型一次发了 N 个就全并行」。
 
 ### 阶段 4：终止或继续
 
@@ -136,6 +160,7 @@ needsFollowUp = true 时：
 | aborted_streaming | 用户 ESC 中断（流式阶段）→ 未完成 tool_use 合成 tool_result |
 | prompt_too_long | 413 且 reactive compact 无法恢复 |
 | stop_hook_prevented | Stop hook 返回 preventContinuation |
+| hook_stopped | Hook 停止路径（`transitions.ts`） |
 | completed | AI 未发 tool_use，正常结束 |
 | aborted_tools | 工具执行阶段中断 |
 | max_turns | 轮次超限 |
@@ -150,13 +175,13 @@ needsFollowUp = true 时：
 | collapse_drain_retry | 413：提交暂存折叠后重试 |
 | reactive_compact_retry | collapse 无效：即时压缩后重试 |
 | stop_hook_blocking | Stop hook 注入阻塞错误，强制重新思考 |
-| token_budget_continuation | TOKEN_BUDGET feature：注入 nudge 加速收尾 |
+| token_budget_continuation | TOKEN_BUDGET：注入 nudge 加速收尾后再 continue |
 
 ---
 
 ## State 状态机对象
 
-每次迭代通过不可变 State 传递：
+每次迭代通过 State 传递（约 11 字段，含 `transition`）：
 
 | 字段 | 含义 |
 |------|------|
@@ -169,9 +194,9 @@ needsFollowUp = true 时：
 | pendingToolUseSummary | 异步工具摘要 Promise |
 | stopHookActive | Stop hook 是否激活 |
 | turnCount | 轮次计数 |
-| transition | 上一次 continue 的原因 |
+| transition | 上一次 continue 的原因（`Continue` 联合类型） |
 
-`transition` 让后续迭代检测特定恢复路径，避免无限循环。
+`transition` 让后续迭代检测特定恢复路径，避免无限循环。定义见 `src/query/transitions.ts`（`Terminal` / `Continue`）。
 
 ---
 
@@ -207,6 +232,51 @@ message_stop
 ### Bash 流式反馈
 
 BashTool 通过 onProgress 每秒轮询输出，UI 实时展示命令输出；长时间命令支持自动后台化。
+
+---
+
+## 长后台任务与主会话上下文
+
+API 协议始终是 **`tool_use` ↔ `tool_result` 成对**：不会出现「只有启动 Action、没有 result」仍继续采样。后台化改变的是 **result 语义**（启动回执 / 阶段性结果），不是取消配对。
+
+### 两类常见后台
+
+| 类型 | 运行机制 | 启动时主会话立刻得到 |
+|------|----------|----------------------|
+| Async Agent / Fork / Coordinator worker | `AppState.tasks` + sidechain 独立跑 | `async_launched` 类 **tool_result**（含 task id） |
+| 长 Bash（`run_in_background` / 超时自动后台） | `LocalShellTask` 保活进程 | 带 task id / 输出路径的 **tool_result** |
+
+### 时序（主线程视角）
+
+```text
+① tool_use(启动后台) → tool_result(回执：已启动 / task id /「完成后通知」)
+   → 主 query 可结束；用户可继续提交新 turn
+   → 后台平行执行（中间轨迹默认不灌主 transcript）
+
+② 完成后：enqueuePendingNotification(mode=task-notification, priority=later)
+   → 主线程空闲时出队（不与 prompt 模式混批；later 不抢用户输入）
+   → 注入主 transcript（形态接近又一条用户侧输入，带 <task-notification> 结构）
+   → 再驱动一轮主 Agent 采样
+```
+
+完成事件 **不是** 挂在原 launch 上的第二个 `tool_result`，也不是模型先发一个「领取完成」的 `tool_use`；而是系统再塞一条 **类用户 query 的 task-notification**，唤醒主循环。
+
+### 用户继续 turn 时上下文怎么组
+
+| 通道 | 内容 |
+|------|------|
+| 主会话 | 主 transcript + 新用户输入 + 常规 System Prompt / 记忆 / 压缩投影 |
+| 后台 | sidechain 或进程输出；默认不进入当前主采样 |
+| 完成后 | 主历史 + task-notification（summary / result 等）→ 再采样 |
+
+UI 的 BackgroundTaskStatus 供人观察；模型侧认的是 transcript 里的启动回执，以及之后的 notification。
+
+### Agent 是否「知道」长任务还在跑
+
+- **知道**：靠启动那次完整的 `tool_use` + **回执 `tool_result`**（不是靠持续灌中间 Action/Ob）。
+- **不自动禁止**再开新的长任务；是否并行 / 重复启动取决于提示与模型策略。产品若要防重复，需显式约束（任务列表注入、限制再 spawn 等）。
+
+多 Agent 细节与通信表见 [04-子Agent与多Agent编排](./04-子Agent与多Agent编排.md)。
 
 ---
 

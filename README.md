@@ -6,6 +6,9 @@ C9luster 的个人学习工作空间，用于记录和整理各类技术学习�
 
 ```
 c9luster-workspace/
+├── ai-applications/  # AI 应用（办公、Vibe Coding 等）
+│   ├── ai-office/    # AI 办公
+│   └── vibecoding/   # Vibe Coding
 ├── database/          # 数据库相关学习
 │   ├── pgsql/        # PostgreSQL 学习笔记和实践
 │   └── redis/        # Redis 学习笔记和实践
@@ -40,6 +43,10 @@ c9luster-workspace/
 - **AI Agent**: Agent 框架开发、工具调用、多 Agent 协作
 - **Protocols**: Chat Completions / Responses / Messages / Gemini、云封装、MCP/A2A
 - **Tips**: Coding Prompt、用 Agent 高效开发、前沿社区与跟进方式
+
+### AI Applications（AI 应用）
+- **AI 办公**: 文档、会议、协作与自动化工作流
+- **Vibe Coding**: 自然语言驱动的开发体验与产品形态
 
 ### 运维技术
 - **Docker**: 容器化技术、镜像构建、Docker Compose

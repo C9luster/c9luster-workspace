@@ -71,13 +71,18 @@ Read/Edit/Write 的 getPath 与 ruleContent glob 匹配。
 
 ## 权限模式
 
-| 模式 | 行为 |
-|------|------|
-| default | 大部分工具 ask |
-| acceptEdits | 读/编辑类安全路径 allow，危险仍 ask |
-| plan | **只读**：写操作 deny，仅 isReadOnly() 工具 |
-| bypassPermissions | 全部 allow（显式危险，需用户启用） |
-| bubble | fork 专用：权限请求上浮父终端 |
+| 模式 | 行为 | 备注 |
+|------|------|------|
+| default | 多数敏感操作 ask | 外部可见 |
+| acceptEdits | 安全路径读/编辑 allow，危险仍 ask | 外部可见 |
+| plan | **只读**：写操作 deny，仅 `isReadOnly()` 工具 | 保存 `prePlanMode` |
+| bypassPermissions | 全部 allow | 显式危险 |
+| dontAsk | 尽量不弹问（偏自动拒绝/按规则） | 外部可见 |
+| auto | 分类器辅助自动裁决 | 偏内部 / `TRANSCRIPT_CLASSIFIER` |
+| bubble | fork 子 agent：权限请求上浮父终端 | 类型存在；fork definition 使用；非外部主模式集 |
+
+外部校验集合见 `PERMISSION_MODES`（含 dontAsk，不含 auto/bubble 作为对外主枚举的情况以 `isExternalPermissionMode` 为准）。
+
 | auto | 自动模式 + classifier |
 
 Plan Mode 通过 prepareContextForPlanMode 切换；退出 ExitPlanMode 恢复。

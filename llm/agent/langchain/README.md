@@ -23,5 +23,5 @@ langchain/
 
 - 文件名：序号 + 中文主题；正文中文
 - 风格对齐同级 `../claude-code/`：索引 README + 分篇深挖
-- 对照本地源码：`workspace/github/langgraph`
+- 机制描述以官方文档与开源实现为准
 - 后续可在本目录下增补 `langchain-core/`、`deep-agents/` 等子笔记

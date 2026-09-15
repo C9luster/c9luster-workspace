@@ -112,6 +112,18 @@ AgentTool.call
 </task-notification>
 ```
 
+### 启动回执 vs 完成回灌（协议）
+
+主会话始终遵守 `tool_use` ↔ `tool_result` 成对：
+
+| 阶段 | 进主上下文的方式 |
+|------|------------------|
+| 启动 | 一轮 `tool_use(Agent…)` → `tool_result(async_launched / 回执)`；中间后台轨迹默认不灌主 transcript |
+| 进行中 | 用户可继续主会话新 turn；上下文 = 主历史 + 新输入（不含后台全量 Ob） |
+| 完成 | **不是**原 call 的第二个 tool_result；`enqueuePendingNotification` 将 task-notification 当作 **类用户 query** 入队，主空闲后注入并再采样 |
+
+详情与 Bash 后台对照见 [02-交互形态与Agentic-Loop](./02-交互形态与Agentic-Loop.md)「长后台任务与主会话上下文」。
+
 ### 权限三层
 
 1. **启动权限**：filterDeniedAgents、requiredMcpServers、teammate/fork 限制
@@ -124,7 +136,12 @@ fork 例外：useExactTools 继承父工具，bubble 模式把权限请求上浮
 
 ## Fork Agent
 
-- 省略 subagent_type + FORK_SUBAGENT feature 开启
+- 省略 subagent_type + **FORK_SUBAGENT** feature 开启
+- 且 **非** Coordinator Mode（`isCoordinatorMode()` 时 fork 直接 false）
+- 且 **非** non-interactive / headless（交互 REPL 才开）
+- Fork 使用合成 `FORK_AGENT`；可继承父 `renderedSystemPrompt` 以复用 prompt cache
+- `permissionMode: bubble`：权限请求上浮父终端
+- KAIROS / proactive 活跃时，部分路径会 **强制 async**（`assistantForceAsync` 等）
 - 继承父上下文和 exact tools，最大化 prompt cache 复用
 - 适合并行探索，不适合长期稳定专业角色
 - coordinator / non-interactive 下禁用 fork gate
@@ -156,7 +173,8 @@ worker A  worker B            teammate1  teammate2
 | 执行者 | built-in worker async subagent | in-process 或 pane-based teammate |
 | 通信 | task-notification + SendMessage(agentId) | mailbox by name，P2P/broadcast/协议 |
 | 任务协作 | 不以 TeamCreate/TaskList 为核心 | TeamFile + shared task list |
-| 启用方式 | **用户显式** /coordinator 或环境变量 | 模型按需 TeamCreate（默认 feature 开启） |
+| 启用方式 | **用户显式** /coordinator 或环境变量 | 模型按需 TeamCreate；**`isAgentSwarmsEnabled()` 默认 true**，仅 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS_DISABLED` 关闭 |
+| Resume | `matchSessionMode()` 可自动翻转 coordinator env | team config + mailbox + task list 文件 |
 
 **Coordinator 不是 Swarm 的 Team Lead。**
 

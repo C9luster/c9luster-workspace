@@ -2,8 +2,7 @@
 
 本目录是对 [LangGraph](https://github.com/langchain-ai/langgraph) 的系统性整理，聚焦 **有状态 Agent / 工作流编排**：定位、架构、控制流、Checkpoint/Store、与 harness 分层，以及讨论沉淀的心智模型。
 
-> 本地对照仓库：`workspace/github/langgraph`（`main`，核心包约 `langgraph==1.2.10`）。  
-> 文档为独立知识库；概念基于官方文档、源码与概念讨论整理。
+> 独立知识库；概念基于官方文档、开源实现与概念讨论整理（核心包量级约 `langgraph` 1.x）。
 
 ---
 
@@ -51,5 +50,4 @@ create_agent / Deep Agents = 更上层 harness，仍建在 LangGraph 上。
 
 ---
 
-*整理日期：2026-08-11（含讨论沉淀更新）*  
-*对照源码：`workspace/github/langgraph`*
+*整理日期：2026-08-11（含讨论沉淀更新）*

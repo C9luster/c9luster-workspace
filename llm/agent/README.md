@@ -7,7 +7,9 @@ AI Agent 开发与实践。
 ```text
 agent/
 ├── README.md
+├── benchmark/       # Agent 评测与数据集构建
 ├── claude-code/     # Claude Code Agent 框架知识库
+├── codex/           # Codex Agent 框架知识库
 ├── langchain/       # LangChain 生态（含 LangGraph）
 └── skill/           # Skill 相关（待补充）
 ```
@@ -19,7 +21,9 @@ agent/
 
 | 目录 | 内容概要 |
 |------|----------|
-| [claude-code/](./claude-code/) | 交互形态、Agentic Loop、上下文、多 Agent、工具与权限、会话持久化 |
+| [benchmark/](./benchmark/) | SWE / Terminal-Bench 数据集构建、验证模块与任务性质 |
+| [claude-code/](./claude-code/) | 交互形态、Agentic Loop、多层上下文管道、多 Agent、工具与权限、会话持久化 |
+| [codex/](./codex/) | Core/App-Server、Turn 准入、WorldState、Multi-Agent V2、沙箱与 Guardian |
 | [langchain/langgraph/](./langchain/langgraph/) | 有状态编排、棋盘控制流、Checkpoint/Store、harness 分层、心智模型 |
 | [skill/](./skill/) | Skill 机制相关笔记 |
 | [../protocols/](../protocols/) | Chat Completions / Responses / Messages / Gemini、兼容层、MCP/A2A |
@@ -40,16 +44,22 @@ agent/
 
 - LangChain / LangGraph（见 [langchain/](./langchain/)）
 - Claude Code（见 [claude-code/](./claude-code/)）
+- Codex（见 [codex/](./codex/)）
 - AutoGPT / BabyAGI / CrewAI 等（待整理）
 
 ## 学习 TODO
 
 | 序号 | 主题 | 状态 |
 |------|------|------|
-| 1 | Codex | 待学习 |
+| 1 | Codex | 已完成（见 [codex/](./codex/)） |
 | 2 | Deer-Flow | 待学习 |
 | 3 | ExploreAgent | 待学习 |
 | 4 | Pi | 待学习 |
+| 5 | grok-build | 待学习 |
+| 6 | kimi-code | 待学习 |
+| 7 | benchmark | 已开始（见 [benchmark/](./benchmark/)） |
+
+AI 办公 / Vibe Coding 见独立目录 [../../ai-applications/](../../ai-applications/)。
 
 ## 相关资源
 
