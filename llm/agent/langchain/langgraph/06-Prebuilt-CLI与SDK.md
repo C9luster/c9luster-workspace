@@ -87,6 +87,8 @@ langgraph dev --host 127.0.0.1 --port 2024
 5. **显式做上下文策略**（或选用 Deep Agents / middleware）  
 6. 需要服务化时上 `langgraph-cli` + SDK  
 
+钩子 / callback / middleware 专章见 [09-钩子与旁路扩展](./09-钩子与旁路扩展.md)。
+
 ---
 
 *上一篇：[持久化与关键能力](./05-持久化与关键能力.md) · [下一篇：选型对照与阅读路径](./07-选型对照与阅读路径.md)*

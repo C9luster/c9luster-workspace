@@ -18,6 +18,8 @@
 | 06 | [Prebuilt、CLI 与 SDK](./06-Prebuilt-CLI与SDK.md) | harness 分层、`create_agent`、CLI/SDK |
 | 07 | [选型对照与阅读路径](./07-选型对照与阅读路径.md) | 选型、与 Claude Code 概念对照、阅读路径 |
 | 08 | [心智模型与常见误解](./08-心智模型与常见误解.md) | 编排vs调度、ReAct、workflow 感、DIY |
+| 09 | [钩子与旁路扩展](./09-钩子与旁路扩展.md) | Callback、middleware、图内策略节点；无跨脚手架对照 |
+
 
 ---
 

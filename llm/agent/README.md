@@ -17,14 +17,28 @@ agent/
 同级协议知识库见 [../protocols/](../protocols/)（模型 Wire API 与 MCP/A2A 等）。  
 用 Agent 写代码的实践技巧见 [../tips/](../tips/)。
 
+## 脚手架文档约定
+
+撰写或增补某个 Agent 脚手架知识库时：
+
+1. **必须有 Hook / 等价扩展点说明**（生命周期拦截、middleware、callback、图内策略节点等，按该脚手架真实机制写）。  
+2. **各脚手架独立成文**：不写「相对 XX 脚手架」对照表或互比段落。  
+3. **不写入公司内部运行时/业务仓库说明**（只基于该脚手架公开实现与文档）。
+
+| 脚手架 | Hook 相关文档 |
+|--------|----------------|
+| [claude-code](./claude-code/) | [07-扩展机制 · Hooks](./claude-code/07-扩展机制.md) |
+| [codex](./codex/) | [07-扩展机制 · Hooks](./codex/07-扩展机制.md) |
+| [langgraph](./langchain/langgraph/) | [09-钩子与旁路扩展](./langchain/langgraph/09-钩子与旁路扩展.md) |
+
 ## 知识库索引
 
 | 目录 | 内容概要 |
 |------|----------|
 | [benchmark/](./benchmark/) | SWE / Terminal-Bench 数据集构建、验证模块与任务性质 |
-| [claude-code/](./claude-code/) | 交互形态、Agentic Loop、多层上下文管道、多 Agent、工具与权限、会话持久化 |
-| [codex/](./codex/) | Core/App-Server、Turn 准入、WorldState、Multi-Agent V2、沙箱与 Guardian |
-| [langchain/langgraph/](./langchain/langgraph/) | 有状态编排、棋盘控制流、Checkpoint/Store、harness 分层、心智模型 |
+| [claude-code/](./claude-code/) | 交互形态、Agentic Loop、多层上下文、多 Agent、工具与权限、**Hooks**、会话持久化 |
+| [codex/](./codex/) | Core/App-Server、Turn 准入、WorldState、Multi-Agent V2、沙箱与 Guardian、**Hooks** |
+| [langchain/langgraph/](./langchain/langgraph/) | 有状态编排、Checkpoint/Store、harness 分层、**钩子与 middleware**、心智模型 |
 | [skill/](./skill/) | Skill 机制相关笔记 |
 | [../protocols/](../protocols/) | Chat Completions / Responses / Messages / Gemini、兼容层、MCP/A2A |
 | [../tips/](../tips/) | Coding Prompt、Agent 高效开发、前沿社区 |

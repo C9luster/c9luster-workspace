@@ -6,9 +6,7 @@ C9luster 的个人学习工作空间，用于记录和整理各类技术学习�
 
 ```
 c9luster-workspace/
-├── ai-applications/  # AI 应用（办公、Vibe Coding 等）
-│   ├── ai-office/    # AI 办公
-│   └── vibecoding/   # Vibe Coding
+├── ai-applications/  # AI 应用（Vibe Coding × AI 办公 harness，单目录）
 ├── database/          # 数据库相关学习
 │   ├── pgsql/        # PostgreSQL 学习笔记和实践
 │   └── redis/        # Redis 学习笔记和实践

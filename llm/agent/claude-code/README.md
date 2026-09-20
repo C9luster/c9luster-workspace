@@ -16,7 +16,7 @@
 | 04 | [子 Agent 与多 Agent 编排](./04-子Agent与多Agent编排.md) | Subagent、Fork、Coordinator、Swarm、通信路径 |
 | 05 | [工具系统与能力边界](./05-工具系统与能力边界.md) | Tool 抽象、builtin-tools、Deferred Search、MCP |
 | 06 | [安全、权限与 Plan Mode](./06-安全权限与Plan-Mode.md) | 8 来源规则、权限模式、沙箱、Plan |
-| 07 | [扩展机制](./07-扩展机制.md) | 自定义 Agent、Skills（/ 与 SkillTool 注入）、Hooks、Workflow、MCP |
+| 07 | [扩展机制](./07-扩展机制.md) | 自定义 Agent、Skills、**Hooks（可自定义）**、Workflow、MCP |
 | 08 | [会话持久化与恢复](./08-会话持久化与恢复.md) | JSONL、Sidechain、snip/compact 投影、Resume |
 | 09 | [特性与模式索引](./09-特性与模式索引.md) | Coordinator、Fork、Daemon、Deferred Tools 等 |
 

@@ -16,7 +16,7 @@
 | 04 | [子 Agent 与多 Agent 编排](./04-子Agent与多Agent编排.md) | Multi-Agent V2、spawn/fork、Roles、Agent Graph |
 | 05 | [工具系统与能力边界](./05-工具系统与能力边界.md) | ToolRouter、apply_patch、Unified Exec、MCP、Code Mode |
 | 06 | [安全、权限与 Plan Mode](./06-安全权限与Plan-Mode.md) | Sandbox、ExecPolicy、Approval、Guardian、Plan |
-| 07 | [扩展机制](./07-扩展机制.md) | Skills（@ 注入）、Hooks、Plugins、Extension API |
+| 07 | [扩展机制](./07-扩展机制.md) | Skills、**Hooks（白名单可配置）**、Plugins、Extension API |
 | 08 | [会话持久化与恢复](./08-会话持久化与恢复.md) | Rollout JSONL、ThreadStore、Resume/Fork/Revert |
 | 09 | [特性与模式索引](./09-特性与模式索引.md) | Multi-Agent、Code Mode、Remote Exec、Collaboration Mode 等 |
 
