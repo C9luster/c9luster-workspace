@@ -1,0 +1,35 @@
+# 06 — 安全、权限与 Plan Mode
+
+## 沙箱
+
+`ctx.sandbox` 限制与宿主共享文件系统和内核的子进程。模式：
+
+| 模式 | 文件效果 |
+|------|----------|
+| `read-only` | 命令只读 |
+| `workspace-write` | 只能写入会话工作区 |
+| `danger-full-access` | 不限制。`sdk-minimal` 使用该策略，只应配合隔离工作区 |
+
+策略被拒绝的调用可以经用户批准做一次性升权。容器、microVM 与远程执行器替换整个执行能力，不注册进本 seam。`ctx.sandboxPolicy` 保存部署默认值与逐会话覆盖。Linux 后端依次尝试 bwrap 与 Landlock，macOS 使用 Seatbelt，Windows 使用受限令牌与工作区 ACL。
+
+## 审批与提问
+
+| 服务 | 行为 |
+|------|------|
+| `ctx.approval` | 一次性允许或拒绝。应答者瀑布没有给出决定时默认拒绝 |
+| `ctx.permissionPresets` | 把沙箱模式与审批策略收成面向用户的一档 |
+| `ctx.userQuestions` | 校验过的问题 schema。Agent 可以暂停等待回答 |
+| `ask_user_question` | 模型向用户提问并请求决定的工具 |
+| `ctx.commands` | 斜杠命令直接执行，不经过模型往返 |
+
+自动化场景由 ACP 为自己的 Agent 回答审批。凭据以引用和记录的形式存在；环境变量优先于 `.env`。需要人的授权走单独流程，不把密钥写进提示词。
+
+## Plan Mode
+
+`ctx.planMode` 提供计划模式。`/plan` 进入或离开。规划期间遵循部署写入的指令；`exit_plan_mode` 把完成的计划交给用户评审。用户可以批准，或要求继续规划。
+
+计划模式是引导。工具在规划期间仍然可用。沙箱模式和审批提示需要另行配置，不由计划模式替代。
+
+## Webhook
+
+`ctx.webhookRuntime` 接收已验证的外部事件，按受信规则创建即发即弃的 Workspace 会话。未通过验证的投递不进入 Agent。

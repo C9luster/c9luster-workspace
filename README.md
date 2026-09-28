@@ -18,6 +18,7 @@ c9luster-workspace/
 │   ├── llm/          # LLM 基础理论与应用
 │   ├── protocols/    # 模型 Wire API 与 Agent 协作协议
 │   └── tips/         # Coding Prompt、Agent 工作流、前沿社区
+├── skills/           # 项目级 Agent Skills（如每周前沿简报）
 ├── operations/       # 运维相关学习
 │   ├── docker/       # Docker 容器化技术
 │   └── k8s/          # Kubernetes 容器编排

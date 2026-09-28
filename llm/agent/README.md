@@ -10,6 +10,8 @@ agent/
 ├── benchmark/       # Agent 评测与数据集构建
 ├── claude-code/     # Claude Code Agent 框架知识库
 ├── codex/           # Codex Agent 框架知识库
+├── deer-flow/       # DeerFlow Agent harness 知识库
+├── deepseek-harness/ # DeepSeek Harness Agent 知识库
 ├── langchain/       # LangChain 生态（含 LangGraph）
 └── skill/           # Skill 相关（待补充）
 ```
@@ -29,6 +31,8 @@ agent/
 |--------|----------------|
 | [claude-code](./claude-code/) | [07-扩展机制 · Hooks](./claude-code/07-扩展机制.md) |
 | [codex](./codex/) | [07-扩展机制 · Hooks](./codex/07-扩展机制.md) |
+| [deer-flow](./deer-flow/) | [07-扩展机制 · Middleware / Extensions](./deer-flow/07-扩展机制.md) |
+| [deepseek-harness](./deepseek-harness/) | [07-扩展机制 · 事件与 Hooks 桥接](./deepseek-harness/07-扩展机制.md) |
 | [langgraph](./langchain/langgraph/) | [09-钩子与旁路扩展](./langchain/langgraph/09-钩子与旁路扩展.md) |
 
 ## 知识库索引
@@ -38,6 +42,8 @@ agent/
 | [benchmark/](./benchmark/) | SWE / Terminal-Bench 数据集构建、验证模块与任务性质 |
 | [claude-code/](./claude-code/) | 交互形态、Agentic Loop、多层上下文、多 Agent、工具与权限、**Hooks**、会话持久化 |
 | [codex/](./codex/) | Core/App-Server、Turn 准入、WorldState、Multi-Agent V2、沙箱与 Guardian、**Hooks** |
+| [deer-flow/](./deer-flow/) | Lead Agent harness、Thread/Run、Sandbox/Skills/MCP/Subagents、**Middleware / Extensions**、Checkpoint |
+| [deepseek-harness/](./deepseek-harness/) | Cordis 插件树、轮次日志、压缩与 Skills、子 Agent seam、**事件与 Hook 桥接**、会话检查点 |
 | [langchain/langgraph/](./langchain/langgraph/) | 有状态编排、Checkpoint/Store、harness 分层、**钩子与 middleware**、心智模型 |
 | [skill/](./skill/) | Skill 机制相关笔记 |
 | [../protocols/](../protocols/) | Chat Completions / Responses / Messages / Gemini、兼容层、MCP/A2A |
@@ -59,6 +65,8 @@ agent/
 - LangChain / LangGraph（见 [langchain/](./langchain/)）
 - Claude Code（见 [claude-code/](./claude-code/)）
 - Codex（见 [codex/](./codex/)）
+- DeerFlow（见 [deer-flow/](./deer-flow/)）
+- DeepSeek Harness（见 [deepseek-harness/](./deepseek-harness/)）
 - AutoGPT / BabyAGI / CrewAI 等（待整理）
 
 ## 学习 TODO
@@ -66,7 +74,7 @@ agent/
 | 序号 | 主题 | 状态 |
 |------|------|------|
 | 1 | Codex | 已完成（见 [codex/](./codex/)） |
-| 2 | Deer-Flow | 待学习 |
+| 2 | Deer-Flow | 已完成（见 [deer-flow/](./deer-flow/)） |
 | 3 | ExploreAgent | 待学习 |
 | 4 | Pi | 待学习 |
 | 5 | grok-build | 待学习 |
