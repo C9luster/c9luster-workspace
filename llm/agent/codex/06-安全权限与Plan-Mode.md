@@ -42,11 +42,13 @@ Guardian / AutoReview（可选 AI 审查员）
 
 ## 平台沙箱
 
+沙箱按一次执行选取，包在 shell、文件操作和补丁写入上。`ToolOrchestrator` 先审批，再按当前策略选择后端；远端环境在 exec-server 上执行，沙箱落在执行端。
+
 | 平台 | 机制（摘要） |
 |------|----------------|
 | macOS | `/usr/bin/sandbox-exec`（Seatbelt）；workspace-write 下保护 `.git` / `.codex` 等 |
 | Linux | 旧路径 Landlock；split filesystem 走 **bubblewrap**（可捆绑 bwrap）；WSL1 不支持 bwrap 所需 user namespace |
-| Windows | Restricted Token / Elevated 后端；split policy 能强制则强制，否则 fail-closed |
+| Windows | Restricted Token / Elevated 后端；另有 MXC。split policy 能强制则强制，否则 fail-closed |
 
 `SandboxPolicy` / split filesystem policy：可读/可写 roots、网络等。Core README 强调：**语义不能弱化执行**——无法在所选后端真实强制的策略直接失败，而不是静默降级。
 

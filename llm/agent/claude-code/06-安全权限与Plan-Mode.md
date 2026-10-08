@@ -122,13 +122,16 @@ ExitPlanMode 可声明 allowedPrompts：
 
 ## 沙箱（Sandbox）
 
-沙箱限制 Bash 的文件系统和网络访问范围，与权限模式协同：
+沙箱包在单条 Bash 上，不按会话长期占用一台容器。CLI 通过 `@anthropic-ai/sandbox-runtime` 把命令放进平台隔离里再执行。
 
-- 只读命令可能自动 allow
-- 沙箱外操作升级 ask
-- 与 worktree isolation 配合实现文件改动隔离
+| 平台 | 实现 |
+|------|------|
+| macOS | 系统自带 Seatbelt（`sandbox-exec`） |
+| Linux / WSL | bubblewrap；可选 seccomp。网络代理依赖 socat |
 
-（具体策略随 feature flag 和平台变化，核心思想：**默认最小权限，逐步放宽**。）
+策略写明这次命令可以读写的目录和可以访问的网络。只读命令可以自动放行；需要写出沙箱允许范围时，升级为询问。Git worktree 把文件改动和主工作区分开，那是仓库隔离，不是这条进程沙箱。
+
+依赖缺失时命令不能假装已经进了沙箱。macOS 只额外依赖 ripgrep；Linux 需要 bubblewrap 与 socat。
 
 ---
 

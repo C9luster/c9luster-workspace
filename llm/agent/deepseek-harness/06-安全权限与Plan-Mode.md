@@ -2,7 +2,7 @@
 
 ## 沙箱
 
-`ctx.sandbox` 限制与宿主共享文件系统和内核的子进程。模式：
+`ctx.sandbox` 在子进程启动前按策略包装。被包装的进程仍与宿主共享文件系统和内核。`ctx.sandboxPolicy` 保存部署默认值与逐会话覆盖。
 
 | 模式 | 文件效果 |
 |------|----------|
@@ -10,7 +10,13 @@
 | `workspace-write` | 只能写入会话工作区 |
 | `danger-full-access` | 不限制。`sdk-minimal` 使用该策略，只应配合隔离工作区 |
 
-策略被拒绝的调用可以经用户批准做一次性升权。容器、microVM 与远程执行器替换整个执行能力，不注册进本 seam。`ctx.sandboxPolicy` 保存部署默认值与逐会话覆盖。Linux 后端依次尝试 bwrap 与 Landlock，macOS 使用 Seatbelt，Windows 使用受限令牌与工作区 ACL。
+| 平台 | 后端 |
+|------|------|
+| Linux | 先尝试 bubblewrap，再尝试 Landlock |
+| macOS | Seatbelt |
+| Windows | 受限令牌与工作区 ACL |
+
+策略拒绝的调用可以经用户批准做一次性升权。容器、microVM 与远程执行器替换整个执行世界：Bash、持久终端和 LSP 一起落到新世界上，不注册进这个进程包装层。
 
 ## 审批与提问
 
