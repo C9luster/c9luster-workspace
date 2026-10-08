@@ -38,6 +38,7 @@ Codex：**你提交一个 Turn 输入，它可能连续采样并执行多轮工�
 
 - 同一时刻最多一个 running task（Regular / Compact / Review / UserShell）
 - 用户输入可 **interrupt** 或 **steer**（向活跃 turn 追加 pending input）
+- `instant_interrupt` 默认开启。当前步骤带独立的取消令牌，中断不必等到该步骤自己的协作点
 - 持有 `InputQueue`（steer + 多 Agent mailbox）、`ContextManager`、`McpRefresh`、`active_turn`
 
 ### TurnContext vs StepContext（设计亮点）

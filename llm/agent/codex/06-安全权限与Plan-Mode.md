@@ -50,6 +50,8 @@ Guardian / AutoReview（可选 AI 审查员）
 
 `SandboxPolicy` / split filesystem policy：可读/可写 roots、网络等。Core README 强调：**语义不能弱化执行**——无法在所选后端真实强制的策略直接失败，而不是静默降级。
 
+命令和文件系统操作之前会跑沙箱完整性检查（macOS Seatbelt、Linux bubblewrap、Windows MXC）。检查只记录依赖是否仍被策略包住，以及耗时；结果不改变本次放行或拒绝。全盘可写，或已经升级过的沙箱，不做这项检查。
+
 ### Orchestrator 中的升级重试
 
 ```text
@@ -79,6 +81,8 @@ Guardian / AutoReview（可选 AI 审查员）
 - 覆盖 exec、network、MCP 等高风险审批
 - `GuardianRootSnapshot`：有界的 root 对话 + authorization version
 - 与 compaction 的 history_version 概念配合，避免「压缩后用过期授权」
+- 复用审查历史前先回滚过期审查；审查失败会持久化，重启后报告仍能读到
+- 快照前缀把助手上下文分开，避免压缩或续跑后前缀对不齐
 - 另有 Guardian V2 / 异步 scorer 扩展路径（`ext/guardian-v2` 等）
 
 **亮点**：安全决策也可 Agent 化，但放在**旁路审查会话**，不与主任务 prompt 糊成一团。

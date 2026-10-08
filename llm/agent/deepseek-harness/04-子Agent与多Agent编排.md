@@ -15,7 +15,7 @@
 | Claude Code | 进程外，走官方 Agent SDK |
 | Harness SDK | 进程外，走 TypeScript SDK |
 
-进程内驱动器由各提供方共享。同进程子级发出 `subagent/start` 与 `subagent/end`。可继续的子级接受后续轮次，而不是只返回一次性结果。
+进程内驱动器由各提供方共享。同进程子级发出 `subagent/start` 与 `subagent/end`。可继续的子级接受后续轮次，而不是只返回一次性结果。委派深度大于零的子级不能使用定时提醒工具；Host 拒绝这类调用，避免提醒被投递到子会话。
 
 ## 父级与子级的边界
 
